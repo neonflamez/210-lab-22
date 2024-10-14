@@ -128,6 +128,38 @@ public:
         }
     }
 
+    void pop_front(){
+        if(!head){
+            cout << "List is empty, cannot pop front." << endl;
+            return;
+        }
+
+        Node* temp = head;
+        head = head->next;
+        if(head)
+            head->prev = nullptr;
+        else
+            tail = nullptr;
+
+        delete temp;
+    }
+
+    void pop_back(){
+        if(!tail){
+            cout << "List is empty, cannot pop back." << endl;
+            return;
+        }
+        
+        Node* temp = tail;
+        tail = tail->prev;
+        if(tail)
+            tail->next = nullptr;
+        else
+            head = nullptr;
+
+        delete temp;
+    }
+
     void print() {
         Node* current = head;
         if (!current) return;
@@ -159,20 +191,35 @@ public:
 
 // Driver program
 int main() {
+    srand(time(0));
+    
     DoublyLinkedList list;
     int size = rand() % (MAX_LS - MIN_LS + 1) + MIN_LS;
-    for (int i = 0; i < size; ++i)
+    for (int i = 0; i < size; i++){
         list.push_back(rand() % (MAX_NR - MIN_NR + 1) + MIN_NR);
-    
+    }
     cout << "List forward: ";
     list.print();
+
     cout << "List backward: ";
     list.print_reverse();
     
-    cout << "Deleting list, then trying to print.\n";
-    list.~DoublyLinkedList();
-    cout << "List forward: ";
+    cout << "Deleting node at position 2:" << endl;
+    list.delete_pos(2);
     list.print();
-    
+
+    cout << "Popping front node:" << endl;
+    list.pop_front();
+    list.print();
+
+    cout << "Popping back node:" << endl;
+    list.pop_back();
+    list.print();
+
+    int deleteValue = 316;
+    cout << "Deleting node with value " << deleteValue << ":" << endl;
+    list.delete_val(deleteValue);
+    list.print();
+
     return 0;
 }
